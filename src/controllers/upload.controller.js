@@ -16,9 +16,16 @@ const uploadFile = (req, res) => {
     res.json({ data: 'Enviar archivo'})
 }
 
+const getFiles = (req, res) => {
+    const files = fs.readdirSync('./src/public/upload')
+    
+    res.json({files})
+}
+
 const uploadController = {
     upload,
-    uploadFile
+    uploadFile,
+    getFiles
 }
 
 module.exports = uploadController

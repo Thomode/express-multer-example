@@ -6,12 +6,7 @@ const router = Router()
 
 router.post('', uploadController.upload.single('myFile'), uploadController.uploadFile)
 
-router.get('', async (req, res) => {
-    const files = fs.readdirSync('./src/public/upload')
-
-    console.log(files)
-    res.json({files})
-})
+router.get('', uploadController.getFiles)
 
 const uploadRouter = {
     router
