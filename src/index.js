@@ -1,17 +1,24 @@
-const express = require('express')
 const ip = require('ip')
-const uploadRouter = require('./routes/upload.routes')
+const app = require('./app')
+const sequelize = require('./database/database')
+const User = require('./models/User')
+require('dotenv').config()
 
+const PORT = process.env.PORT 
 
-const PORT = 4000
+const main = async () => {
+    try {
+        await sequelize.sync()
+        await User.sync()
 
-const app = express()
+        app.listen(PORT, () => {
+            console.log(`Server running on: http://${ip.address()}:${PORT}`)
+        })
 
-app.use(express.json())
-app.use('/upload', uploadRouter.router)
-app.use('/public', express.static(__dirname + '/public'))
-app.use('/files', express.static(__dirname + '/public/upload'))
+    } catch (error) {
+        console.log('Database connection error:', error)
+    } 
+}
 
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en: http://${ip.address()}:${PORT}`)
-})
+main()
+
